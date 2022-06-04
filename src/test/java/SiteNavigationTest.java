@@ -1,22 +1,37 @@
 import Client.StellarBurgersClient;
-import Client.StellarBurgersRestClient;
+import PageObjects.ConstructorPage;
+import PageObjects.ProfilePage;
 import User.User;
 import PageObjects.LoginPage;
 import PageObjects.MainPage;
 import io.qameta.allure.junit4.DisplayName;
-import io.restassured.response.ValidatableResponse;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.openqa.selenium.chrome.ChromeDriver;
 
 import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.page;
 import static com.codeborne.selenide.Selenide.webdriver;
+import static com.codeborne.selenide.WebDriverRunner.setWebDriver;
 import static junit.framework.TestCase.assertTrue;
 
 public class SiteNavigationTest {
-    StellarBurgersClient stellarBurgersClient;
     User user;
+    StellarBurgersClient stellarBurgersClient;
     String authorization;
+    ChromeDriver driver;
+
+    @Before
+    public void setUp(){
+        System.setProperty("webdriver.chrome.driver", "C:\\WebDriver\\bin\\yandexdriver.exe");
+        driver = new ChromeDriver();
+        setWebDriver(driver);
+
+        user = User.getRandom();
+        stellarBurgersClient = new StellarBurgersClient();
+        authorization = stellarBurgersClient.createNewUser(user).extract().body().path("accessToken");
+    }
 
     @After
     public void tearDown() {
@@ -26,26 +41,20 @@ public class SiteNavigationTest {
         }
     }
 
-    @Before
-    public void setUp() {
-        stellarBurgersClient = new StellarBurgersClient();
-        user  = user.getRandom();
-        authorization = stellarBurgersClient.createNewUser(user).extract().body().path("accessToken");
-
-    }
     @Test
     @DisplayName("go to personal account with authorization")
     public void goToPersonalAccountWithAuthorization() {
 
         MainPage mainPage = open(MainPage.URL_OPEN, MainPage.class);
         mainPage.clickLoginAccount();
-        LoginPage loginPage = open(LoginPage.URL_OPEN, LoginPage.class);
+        LoginPage loginPage = page(LoginPage.class);
         loginPage.fillEmail(user.getEmail());
         loginPage.fillPassword(user.getPassword());
-        loginPage.clickLoginAccount();
-        loginPage.clickLoginAccount();
-        assertTrue(.checkOrderButton());
+        loginPage.clickLogin();
+        mainPage.clickLoginAccountHeader();
+        ProfilePage profilePage = page(ProfilePage.class);
 
+        assertTrue("Не открыта страница личного кабинета", profilePage.checkExitButton());
     }
 
     @Test
@@ -54,12 +63,9 @@ public class SiteNavigationTest {
 
         MainPage mainPage = open(MainPage.URL_OPEN, MainPage.class);
         mainPage.clickLoginAccountHeader();
-        LoginPage loginPage = open(LoginPage.URL_OPEN, LoginPage.class);
-        loginPage.fillEmail("timokhina_marya@mail.ru");
-        loginPage.fillPassword("11111111");
-        loginPage.clickLoginAccount();
-        assertTrue(mainPage.checkOrderButton());
+        LoginPage loginPage = page(LoginPage.class);
 
+        assertTrue("Не открыта страница для входа", loginPage.checkHeaderLogin());
     }
 
     @Test
@@ -67,13 +73,16 @@ public class SiteNavigationTest {
     public void transitionFromPersonalAccountToConstructorByConstructorButton() {
 
         MainPage mainPage = open(MainPage.URL_OPEN, MainPage.class);
+        mainPage.clickLoginAccount();
+        LoginPage loginPage = page(LoginPage.class);
+        loginPage.fillEmail(user.getEmail());
+        loginPage.fillPassword(user.getPassword());
+        loginPage.clickLogin();
         mainPage.clickLoginAccountHeader();
-        LoginPage loginPage = open(LoginPage.URL_OPEN, LoginPage.class);
-        loginPage.fillEmail("timokhina_marya@mail.ru");
-        loginPage.fillPassword("11111111");
-        loginPage.clickLoginAccount();
-        assertTrue(mainPage.checkOrderButton());
+        mainPage.clickConstructorButton();
+        ConstructorPage constructorPage = page(ConstructorPage.class);
 
+        assertTrue("Не открыта страница конструктора", constructorPage.checkMakeBurgerPage());
     }
 
     @Test
@@ -81,13 +90,16 @@ public class SiteNavigationTest {
     public void transitionFromPersonalAccountToConstructorByLogo() {
 
         MainPage mainPage = open(MainPage.URL_OPEN, MainPage.class);
+        mainPage.clickLoginAccount();
+        LoginPage loginPage = page(LoginPage.class);
+        loginPage.fillEmail(user.getEmail());
+        loginPage.fillPassword(user.getPassword());
+        loginPage.clickLogin();
         mainPage.clickLoginAccountHeader();
-        LoginPage loginPage = open(LoginPage.URL_OPEN, LoginPage.class);
-        loginPage.fillEmail("timokhina_marya@mail.ru");
-        loginPage.fillPassword("11111111");
-        loginPage.clickLoginAccount();
-        assertTrue(mainPage.checkOrderButton());
+        mainPage.clickLogoButton();
+        ConstructorPage constructorPage = page(ConstructorPage.class);
 
+        assertTrue("Не открыта страница конструктора", constructorPage.checkMakeBurgerPage());
     }
 
     @Test
@@ -95,13 +107,16 @@ public class SiteNavigationTest {
     public void logoutProfile() {
 
         MainPage mainPage = open(MainPage.URL_OPEN, MainPage.class);
+        mainPage.clickLoginAccount();
+        LoginPage loginPage = page(LoginPage.class);
+        loginPage.fillEmail(user.getEmail());
+        loginPage.fillPassword(user.getPassword());
+        loginPage.clickLogin();
         mainPage.clickLoginAccountHeader();
-        LoginPage loginPage = open(LoginPage.URL_OPEN, LoginPage.class);
-        loginPage.fillEmail("timokhina_marya@mail.ru");
-        loginPage.fillPassword("11111111");
-        loginPage.clickLoginAccount();
-        assertTrue(mainPage.checkOrderButton());
+        ProfilePage profilePage = page(ProfilePage.class);
+        profilePage.clickExitButton();
 
+        assertTrue("Не открыта страница конструктора", loginPage.checkHeaderLogin());
     }
 
 
@@ -111,12 +126,14 @@ public class SiteNavigationTest {
 
         MainPage mainPage = open(MainPage.URL_OPEN, MainPage.class);
         mainPage.clickLoginAccountHeader();
-        LoginPage loginPage = open(LoginPage.URL_OPEN, LoginPage.class);
-        loginPage.fillEmail("timokhina_marya@mail.ru");
-        loginPage.fillPassword("11111111");
-        loginPage.clickLoginAccount();
-        assertTrue(mainPage.checkOrderButton());
-
+        LoginPage loginPage = page(LoginPage.class);
+        loginPage.fillEmail(user.getEmail());
+        loginPage.fillPassword(user.getPassword());
+        loginPage.clickLogin();
+        ConstructorPage constructorPage = page(ConstructorPage.class);
+        constructorPage.clickMainButton();
+        constructorPage.clickBunButton();
+        assertTrue("Не открылся раздел с булками", constructorPage.checkBunSection());
     }
 
     @Test
@@ -125,12 +142,14 @@ public class SiteNavigationTest {
 
         MainPage mainPage = open(MainPage.URL_OPEN, MainPage.class);
         mainPage.clickLoginAccountHeader();
-        LoginPage loginPage = open(LoginPage.URL_OPEN, LoginPage.class);
-        loginPage.fillEmail("timokhina_marya@mail.ru");
-        loginPage.fillPassword("11111111");
-        loginPage.clickLoginAccount();
-        assertTrue(mainPage.checkOrderButton());
+        LoginPage loginPage = page(LoginPage.class);
+        loginPage.fillEmail(user.getEmail());
+        loginPage.fillPassword(user.getPassword());
+        loginPage.clickLogin();
+        ConstructorPage constructorPage = page(ConstructorPage.class);
+        constructorPage.clickSauceButton();
 
+        assertTrue("Не открылся раздел с соусами", constructorPage.checkSauceSection());
     }
 
     @Test
@@ -139,14 +158,13 @@ public class SiteNavigationTest {
 
         MainPage mainPage = open(MainPage.URL_OPEN, MainPage.class);
         mainPage.clickLoginAccountHeader();
-        LoginPage loginPage = open(LoginPage.URL_OPEN, LoginPage.class);
-        loginPage.fillEmail("timokhina_marya@mail.ru");
-        loginPage.fillPassword("11111111");
-        loginPage.clickLoginAccount();
-        assertTrue(mainPage.checkOrderButton());
+        LoginPage loginPage = page(LoginPage.class);
+        loginPage.fillEmail(user.getEmail());
+        loginPage.fillPassword(user.getPassword());
+        loginPage.clickLogin();
+        ConstructorPage constructorPage = page(ConstructorPage.class);
+        constructorPage.clickMainButton();
 
+        assertTrue("Не открылся раздел с начинками", constructorPage.checkMainSection());
     }
-
-
-
 }

@@ -8,11 +8,9 @@ import org.openqa.selenium.support.How;
 
 import java.time.Duration;
 
-
 public class LoginPage {
 
     public static final String URL_OPEN = "https://stellarburgers.nomoreparties.site/login";
-
 
     // Поле Email
     @FindBy(how = How.CSS, using = "fieldset:nth-child(1) > div > div > input")
@@ -34,10 +32,15 @@ public class LoginPage {
     @FindBy(how = How.XPATH, using = ".//a[text()='Восстановить пароль']")
     private SelenideElement recoveryPasswordButton;
 
+    // заголовок раздела Вход
+    @FindBy(how = How.XPATH, using = ".//h2[text()='Вход']")
+    private SelenideElement headerLogin;
+
     public String fillName(String name){
         emailField.setValue(name);
         return name;
     }
+
     public String fillEmail(String email){
         emailField.setValue(email);
         return email;
@@ -48,58 +51,19 @@ public class LoginPage {
         return password;
     }
 
-    public void clickLoginAccount(){
+    public void clickLogin(){
         loginButton.click();
             }
 
     public void clickRegistrationLink(){
         registrationLink.click();
-
     }
 
     public void clickRecoveryPasswordButton(){
         recoveryPasswordButton.click();
     }
 
-
-
-
-//
-//    //локатор кнопки "Восстановить пароль"
-//    @FindBy(how = How.XPATH, using = "//a[text()='Восстановить пароль']")
-//    private SelenideElement forgotButton;
-//
-//    //локатор кнопки "Войти"
-//    @FindBy(how = How.XPATH, using = "//button[text()='Войти']")
-//    private SelenideElement loginButton;
-//
-//    //локатор кнопки "Зарегистрироваться"
-//    @FindBy(how = How.XPATH, using = "//a[text()='Зарегистрироваться']")
-//    private SelenideElement registerButton;
-//
-//    public LoginPage setEmail(String email) {
-//        emailField.shouldBe(Condition.visible, Duration.ofSeconds(8));
-//        this.emailField.sendKeys(email);
-//        return this;
-//    }
-//
-//    public LoginPage setPassword(String password) {
-//        this.passwordField.sendKeys(password);
-//        return this;
-//    }
-//
-//    public ForgotPasswordPage clickForgotPassword() {
-//        this.forgotButton.click();
-//        return Selenide.page(ForgotPasswordPage.class);
-//    }
-//
-//    public MainPage clickToLoginOnLoginPage() {
-//        this.loginButton.click();
-//        return Selenide.page(MainPage.class);
-//    }
-//
-//    public boolean checkRegisterButton() {
-//        return registerButton.shouldBe(Condition.visible, Duration.ofSeconds(4)).isDisplayed();
-//    }
-
+    public boolean checkHeaderLogin() {
+        return headerLogin.shouldBe(Condition.visible, Duration.ofSeconds(4)).isDisplayed();
+    }
 }

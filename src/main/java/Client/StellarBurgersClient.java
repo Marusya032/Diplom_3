@@ -26,6 +26,17 @@ public class StellarBurgersClient extends StellarBurgersRestClient{
                 .then();
     }
 
+    @Step("Login user")
+    public ValidatableResponse loginUser(User user) {
+
+        return given()
+                .spec(getBaseSpec())
+                .body(user)
+                .when()
+                .post(LOGIN_USER_PATH)
+                .then();
+    }
+
     @Step("Delete user")
     public ValidatableResponse deleteUser(String authorization){
 

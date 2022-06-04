@@ -60,7 +60,7 @@ public class RegistrationPage {
         registrationButton.click();
     }
 
-    public boolean isMessageIncorrectPassword(){
+    public boolean messageIncorrectPassword(){
 
         return incorrectPassword.isDisplayed();
     }
