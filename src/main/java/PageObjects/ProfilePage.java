@@ -29,6 +29,6 @@ public class ProfilePage {
     }
 
     public boolean checkExitButton(){
-        return exitButton.shouldBe(Condition.visible, Duration.ofSeconds(10)).isDisplayed();
+        return exitButton.shouldBe(Condition.visible, Duration.ofSeconds(4)).isDisplayed();
     }
 }
