@@ -57,6 +57,7 @@ public class RegistrationUserTest {
         assertTrue("Не найдена кнопка оформления заказа", mainPage.checkOrderButton());
 
 
+
 //        mainPage.clickLoginAccount();
 //        LoginPage loginPage = page(LoginPage.class);
 //        loginPage.clickRegistrationLink();
