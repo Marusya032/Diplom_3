@@ -1,12 +1,11 @@
-package PageObjects;
+package pageobjects;
 
-import User.User;
-import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 
 import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.page;
 
 
 public class RegistrationPage {
@@ -37,8 +36,9 @@ public class RegistrationPage {
     @FindBy(how = How.XPATH, using = "//p[text()='Некорректный пароль']")
     private SelenideElement incorrectPassword  ;
 
-    public void clickLoginFromRegistration(){
+    public LoginPage clickLoginFromRegistration(){
         loginButton.click();
+        return page(LoginPage.class);
     }
 
     public void fillName(String name){

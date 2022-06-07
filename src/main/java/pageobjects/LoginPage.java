@@ -1,12 +1,13 @@
-package PageObjects;
+package pageobjects;
 
 import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 
 import java.time.Duration;
+
+import static com.codeborne.selenide.Selenide.page;
 
 public class LoginPage {
 
@@ -36,31 +37,43 @@ public class LoginPage {
     @FindBy(how = How.XPATH, using = ".//h2[text()='Вход']")
     private SelenideElement headerLogin;
 
-    public String fillName(String name){
-        emailField.setValue(name);
-        return name;
+//    public String fillName(String name){
+//        emailField.setValue(name);
+//        return name;
+//    }
+
+//    public String fillEmail(String email){
+//         emailField.setValue(email);
+//        return email;
+//    }
+
+    public  LoginPage fillEmail(String email){
+        this.emailField.setValue(email);
+        return this;
+    }
+    public  LoginPage fillPassword(String password){
+        this.passwordField.setValue(password);
+        return this;
     }
 
-    public String fillEmail(String email){
-        emailField.setValue(email);
-        return email;
-    }
+//    public String fillPassword(String password){
+//       passwordField.setValue(password);
+//        return password;
+//    }
 
-    public String fillPassword(String password){
-       passwordField.setValue(password);
-        return password;
-    }
-
-    public void clickLogin(){
+    public MainPage clickLogin(){
         loginButton.click();
-            }
-
-    public void clickRegistrationLink(){
-        registrationLink.click();
+        return page(MainPage.class);
     }
 
-    public void clickRecoveryPasswordButton(){
+    public RegistrationPage clickRegistrationLink(){
+        registrationLink.click();
+        return page(RegistrationPage.class);
+    }
+
+    public RecoveryPasswordPage clickRecoveryPasswordButton(){
         recoveryPasswordButton.click();
+        return page(RecoveryPasswordPage.class);
     }
 
     public boolean checkHeaderLogin() {

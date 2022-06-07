@@ -1,9 +1,9 @@
-import Client.StellarBurgersClient;
-import PageObjects.ConstructorPage;
-import PageObjects.ProfilePage;
-import User.User;
-import PageObjects.LoginPage;
-import PageObjects.MainPage;
+import client.StellarBurgersClient;
+import pageobjects.ConstructorPage;
+import pageobjects.ProfilePage;
+import user.User;
+import pageobjects.LoginPage;
+import pageobjects.MainPage;
 import io.qameta.allure.junit4.DisplayName;
 import org.junit.After;
 import org.junit.Before;
@@ -14,6 +14,7 @@ import static com.codeborne.selenide.Selenide.page;
 import static com.codeborne.selenide.Selenide.webdriver;
 import static com.codeborne.selenide.WebDriverRunner.setWebDriver;
 import static junit.framework.TestCase.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 public class SiteNavigationTest {
     User user;
@@ -23,9 +24,9 @@ public class SiteNavigationTest {
 
     @Before
     public void setUp(){
-        System.setProperty("webdriver.chrome.driver", "C:\\WebDriver\\bin\\yandexdriver.exe");
-        driver = new ChromeDriver();
-        setWebDriver(driver);
+    //    System.setProperty("webdriver.chrome.driver", "C:\\WebDriver\\bin\\yandexdriver.exe");
+    //    driver = new ChromeDriver();
+    //    setWebDriver(driver);
 
         user = User.getRandom();
         stellarBurgersClient = new StellarBurgersClient();
@@ -132,7 +133,7 @@ public class SiteNavigationTest {
         ConstructorPage constructorPage = page(ConstructorPage.class);
         constructorPage.clickMainButton();
         constructorPage.clickBunButton();
-        assertTrue("Не открылся раздел с булками", constructorPage.checkBunSection());
+        assertEquals("Не открылся раздел с булками", "Булки", constructorPage.getTextClickedButton());
     }
 
     @Test
@@ -146,10 +147,9 @@ public class SiteNavigationTest {
         loginPage.fillPassword(user.getPassword());
         loginPage.clickLogin();
         ConstructorPage constructorPage = page(ConstructorPage.class);
-        constructorPage.clickSauceButton();
-
-        assertTrue("Не открылся раздел с соусами", constructorPage.checkSauceSection());
-    }
+        constructorPage.clickMainButton();
+        assertEquals("Не открылся раздел с начинками", "Начинки", constructorPage.getTextClickedButton());
+       }
 
     @Test
     @DisplayName("go to the sauce section ")
@@ -162,8 +162,7 @@ public class SiteNavigationTest {
         loginPage.fillPassword(user.getPassword());
         loginPage.clickLogin();
         ConstructorPage constructorPage = page(ConstructorPage.class);
-        constructorPage.clickMainButton();
-
-        assertTrue("Не открылся раздел с начинками", constructorPage.checkMainSection());
+        constructorPage.clickSauceButton();
+        assertEquals("Не открылся раздел с соусами", "Соусы", constructorPage.getTextClickedButton());
     }
 }

@@ -1,10 +1,12 @@
-package PageObjects;
+package pageobjects;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import java.time.Duration;
+
+import static com.codeborne.selenide.Selenide.page;
 
 public class MainPage {
 
@@ -30,12 +32,14 @@ public class MainPage {
     @FindBy(how = How.CSS,  using = "header>nav>div>a")
     private SelenideElement logoIcon;
 
-    public void clickLoginAccount(){
+    public LoginPage clickLoginAccount(){
         loginAccount.click();
+        return page(LoginPage.class);
     }
 
-    public void clickLoginAccountHeader(){
+    public LoginPage clickLoginAccountHeader(){
         loginAccountHeader.click();
+        return page(LoginPage.class);
     }
 
     public void clickCreateOrderButton(){

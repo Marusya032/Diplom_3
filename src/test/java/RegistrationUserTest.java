@@ -1,8 +1,8 @@
-import Client.StellarBurgersClient;
-import PageObjects.LoginPage;
-import PageObjects.MainPage;
-import PageObjects.RegistrationPage;
-import User.User;
+import client.StellarBurgersClient;
+import pageobjects.LoginPage;
+import pageobjects.MainPage;
+import pageobjects.RegistrationPage;
+import user.User;
 import io.qameta.allure.junit4.DisplayName;
 import org.junit.After;
 import org.junit.Before;
@@ -22,9 +22,9 @@ public class RegistrationUserTest {
 
     @Before
     public void setUp(){
-        System.setProperty("webdriver.chrome.driver", "C:\\WebDriver\\bin\\yandexdriver.exe");
-        driver = new ChromeDriver();
-        setWebDriver(driver);
+   //     System.setProperty("webdriver.chrome.driver", "C:\\WebDriver\\bin\\yandexdriver.exe");
+   //     driver = new ChromeDriver();
+   //     setWebDriver(driver);
 
         user = User.getRandom();
         stellarBurgersClient = new StellarBurgersClient();
@@ -32,10 +32,13 @@ public class RegistrationUserTest {
 
     @After
     public void tearDown() {
-        webdriver().driver().close();
+
+        authorization = stellarBurgersClient.loginUser(user).extract().body().path("accessToken");
+
         if (authorization != null) {
             stellarBurgersClient.deleteUser(authorization);
         }
+        webdriver().driver().close();
 }
 
     @Test
@@ -56,7 +59,7 @@ public class RegistrationUserTest {
         loginPage.clickLogin();
         assertTrue("Не найдена кнопка оформления заказа", mainPage.checkOrderButton());
 
-        authorization = stellarBurgersClient.loginUser(user).extract().body().path("accessToken");
+        //  authorization = stellarBurgersClient.loginUser(user).extract().body().path("accessToken");
 
     }
 

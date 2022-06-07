@@ -1,9 +1,9 @@
-import Client.StellarBurgersClient;
-import PageObjects.LoginPage;
-import PageObjects.MainPage;
-import PageObjects.RecoveryPasswordPage;
-import PageObjects.RegistrationPage;
-import User.User;
+import client.StellarBurgersClient;
+import pageobjects.LoginPage;
+import pageobjects.MainPage;
+import pageobjects.RecoveryPasswordPage;
+import pageobjects.RegistrationPage;
+import user.User;
 import io.qameta.allure.junit4.DisplayName;
 import org.junit.After;
 import org.junit.Before;
@@ -21,7 +21,6 @@ public class LoginUserTest {
     String authorization;
     ChromeDriver driver;
 
-
     @Before
     public void setUp(){
         System.setProperty("webdriver.chrome.driver", "C:\\WebDriver\\bin\\yandexdriver.exe");
@@ -30,7 +29,7 @@ public class LoginUserTest {
 
         user = User.getRandom();
         stellarBurgersClient = new StellarBurgersClient();
-        stellarBurgersClient.createNewUser(user);
+        authorization = stellarBurgersClient.createNewUser(user).extract().body().path("accessToken");
     }
 
     @After
@@ -45,65 +44,55 @@ public class LoginUserTest {
     @DisplayName("login from main page")
     public void loginFromMain() {
 
-        MainPage mainPage = open(MainPage.URL_OPEN, MainPage.class);
-        mainPage.clickLoginAccount();
-        LoginPage loginPage = page(LoginPage.class);
-        loginPage.fillEmail(user.getEmail());
-        loginPage.fillPassword(user.getPassword());
-        loginPage.clickLogin();
-        assertTrue("Не найдена кнопка оформления заказа", mainPage.checkOrderButton());
+        MainPage mainPage = open(MainPage.URL_OPEN, MainPage.class)
+                .clickLoginAccount()
+                .fillEmail(user.getEmail())
+                .fillPassword(user.getPassword())
+                .clickLogin();
 
-        authorization = stellarBurgersClient.loginUser(user).extract().body().path("accessToken");
-    }
+        assertTrue("Не найдена кнопка оформления заказа", mainPage.checkOrderButton());
+     }
 
     @Test
     @DisplayName("login from header")
     public void loginFromHeader() {
 
-        MainPage mainPage = open(MainPage.URL_OPEN, MainPage.class);
-        mainPage.clickLoginAccountHeader();
-        LoginPage loginPage = page(LoginPage.class);
-        loginPage.fillEmail(user.getEmail());
-        loginPage.fillPassword(user.getPassword());
-        loginPage.clickLogin();
-        assertTrue("Не найдена кнопка оформления заказа", mainPage.checkOrderButton());
+        MainPage mainPage = open(MainPage.URL_OPEN, MainPage.class)
+                .clickLoginAccountHeader()
+                .fillEmail(user.getEmail())
+                .fillPassword(user.getPassword())
+                .clickLogin();
 
-        authorization = stellarBurgersClient.loginUser(user).extract().body().path("accessToken");
+        assertTrue("Не найдена кнопка оформления заказа", mainPage.checkOrderButton());
     }
 
     @Test
     @DisplayName("login from registration button")
     public void loginFromRegistration() {
 
-        MainPage mainPage = open(MainPage.URL_OPEN, MainPage.class);
-        mainPage.clickLoginAccount();
-        LoginPage loginPage = page(LoginPage.class);
-        loginPage.clickRegistrationLink();
-        RegistrationPage registrationPage = page(RegistrationPage.class);
-        registrationPage.clickLoginFromRegistration();
-        loginPage.fillEmail(user.getEmail());
-        loginPage.fillPassword(user.getPassword());
-        loginPage.clickLogin();
-        assertTrue("Не найдена кнопка оформления заказа", mainPage.checkOrderButton());
+        MainPage mainPage = open(MainPage.URL_OPEN, MainPage.class)
+                .clickLoginAccount()
+                .clickRegistrationLink()
+                .clickLoginFromRegistration()
+                .fillEmail(user.getEmail())
+                .fillPassword(user.getPassword())
+                .clickLogin();
 
-        authorization = stellarBurgersClient.loginUser(user).extract().body().path("accessToken");
+        assertTrue("Не найдена кнопка оформления заказа", mainPage.checkOrderButton());
     }
 
     @Test
     @DisplayName("login from recovery password")
     public void loginFromRecoveryPassword() {
 
-        MainPage mainPage = open(MainPage.URL_OPEN, MainPage.class);
-        mainPage.clickLoginAccount();
-        LoginPage loginPage = page(LoginPage.class);
-        loginPage.clickRecoveryPasswordButton();
-        RecoveryPasswordPage recoveryPasswordPage = page(RecoveryPasswordPage.class);
-        recoveryPasswordPage.clickLoginFromRecoveryPassword();
-        loginPage.fillEmail(user.getEmail());
-        loginPage.fillPassword(user.getPassword());
-        loginPage.clickLogin();
-        assertTrue("Не найдена кнопка оформления заказа", mainPage.checkOrderButton());
+        MainPage mainPage = open(MainPage.URL_OPEN, MainPage.class)
+                .clickLoginAccount()
+                .clickRecoveryPasswordButton()
+                .clickLoginFromRecoveryPassword()
+                .fillEmail(user.getEmail())
+                .fillPassword(user.getPassword())
+                .clickLogin();
 
-        authorization = stellarBurgersClient.loginUser(user).extract().body().path("accessToken");
+        assertTrue("Не найдена кнопка оформления заказа", mainPage.checkOrderButton());
     }
 }

@@ -1,5 +1,5 @@
-package Client;
-import User.User;
+package client;
+import user.User;
 import io.qameta.allure.Step;
 import io.restassured.response.ValidatableResponse;
 import static io.restassured.RestAssured.given;
