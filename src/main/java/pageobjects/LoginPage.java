@@ -48,10 +48,12 @@ public class LoginPage {
 //    }
 
     public  LoginPage fillEmail(String email){
+        emailField.shouldBe(Condition.visible, Duration.ofSeconds(8));
         this.emailField.setValue(email);
         return this;
     }
     public  LoginPage fillPassword(String password){
+        emailField.shouldBe(Condition.visible, Duration.ofSeconds(8));
         this.passwordField.setValue(password);
         return this;
     }

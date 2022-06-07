@@ -41,23 +41,24 @@ public class RegistrationPage {
         return page(LoginPage.class);
     }
 
-    public void fillName(String name){
+    public RegistrationPage fillName(String name){
         nameField.setValue(name);
-
+        return this;
     }
 
-    public void fillEmail(String email){
+    public RegistrationPage fillEmail(String email){
         emailField.setValue(email);
-
+        return this;
     }
 
-    public void fillPassword(String password){
+    public RegistrationPage fillPassword(String password){
         passwordField.setValue(password);
-
+        return this;
     }
 
-    public void clickRegistrationButton(){
+    public LoginPage clickRegistrationButton(){
         registrationButton.click();
+        return page(LoginPage.class);
     }
 
     public boolean messageIncorrectPassword(){
