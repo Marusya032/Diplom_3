@@ -141,7 +141,6 @@ public class RegistrationUserTest {
     @Test
     @DisplayName("success registration")
     public void successRegistration() {
-
         LoginPage loginPage = open(RegistrationPage.URL_OPEN, RegistrationPage.class)
                 .fillName(user.getName())
                 .fillEmail(user.getEmail())
@@ -153,11 +152,11 @@ public class RegistrationUserTest {
     @Test
     @DisplayName("registration with incorrect password")
     public void registrationWithIncorrectPassword() {
-
+        user.setPassword("111");
         RegistrationPage registrationPage = open(RegistrationPage.URL_OPEN, RegistrationPage.class)
                 .fillName(user.getName())
                 .fillEmail(user.getEmail())
-                .fillPassword("111")
+                .fillPassword(user.getPassword())
                 .clickRegistrationButtonWithIncorrectData();
         assertTrue("Не найдено собщение об ошибке пароля", registrationPage.messageIncorrectPassword());
     }
