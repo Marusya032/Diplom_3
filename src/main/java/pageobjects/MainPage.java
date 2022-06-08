@@ -72,13 +72,11 @@ public class MainPage {
 
     public MainPage clickConstructorButton(){
         constructorButton.click();
-      //  return page(MainPage.class);
         return this;
     }
 
     public MainPage clickLogoButton(){
         logoIcon.click();
-      //  return page(MainPage.class);
         return this;
     }
 
@@ -98,19 +96,16 @@ public class MainPage {
 
     public MainPage clickBunButton(){
         bunButton.click();
-      //  return page(MainPage.class);
         return this;
     }
 
     public MainPage clickSauceButton(){
         sauceButton.click();
-    //    return page(MainPage.class);
         return this;
     }
 
     public MainPage clickMainButton(){
         mainButton.click();
-      //  return page(MainPage.class);
         return this;
     }
 
