@@ -168,7 +168,6 @@
 //}
 
 import client.StellarBurgersClient;
-import org.openqa.selenium.chrome.ChromeOptions;
 import pageobjects.ProfilePage;
 import user.User;
 import pageobjects.LoginPage;
@@ -179,7 +178,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.chrome.ChromeDriver;
 import static com.codeborne.selenide.Selenide.open;
-import static com.codeborne.selenide.Selenide.page;
 import static com.codeborne.selenide.Selenide.webdriver;
 import static com.codeborne.selenide.WebDriverRunner.setWebDriver;
 import static junit.framework.TestCase.assertTrue;
@@ -193,9 +191,9 @@ public class SiteNavigationTest {
 
     @Before
     public void setUp(){
-//        System.setProperty("webdriver.chrome.driver", "C:\\WebDriver\\bin\\yandexdriver.exe");
-//        driver = new ChromeDriver();
-//        setWebDriver(driver);
+        System.setProperty("webdriver.chrome.driver", "C:\\WebDriver\\bin\\yandexdriver.exe");
+        driver = new ChromeDriver();
+        setWebDriver(driver);
 
         user = User.getRandom();
         stellarBurgersClient = new StellarBurgersClient();

@@ -1,8 +1,5 @@
 import client.StellarBurgersClient;
-import pageobjects.LoginPage;
 import pageobjects.MainPage;
-import pageobjects.RecoveryPasswordPage;
-import pageobjects.RegistrationPage;
 import user.User;
 import io.qameta.allure.junit4.DisplayName;
 import org.junit.After;
@@ -10,7 +7,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.chrome.ChromeDriver;
 import static com.codeborne.selenide.Selenide.open;
-import static com.codeborne.selenide.Selenide.page;
 import static com.codeborne.selenide.Selenide.webdriver;
 import static com.codeborne.selenide.WebDriverRunner.setWebDriver;
 import static junit.framework.TestCase.assertTrue;
@@ -23,9 +19,9 @@ public class LoginUserTest {
 
     @Before
     public void setUp(){
-//        System.setProperty("webdriver.chrome.driver", "C:\\WebDriver\\bin\\yandexdriver.exe");
-//        driver = new ChromeDriver();
-//        setWebDriver(driver);
+        System.setProperty("webdriver.chrome.driver", "C:\\WebDriver\\bin\\yandexdriver.exe");
+        driver = new ChromeDriver();
+        setWebDriver(driver);
 
         user = User.getRandom();
         stellarBurgersClient = new StellarBurgersClient();
