@@ -123,9 +123,9 @@ public class LoginUserTest {
 
     @Before
     public void setUp(){
-        //    System.setProperty("webdriver.chrome.driver", "C:\\WebDriver\\bin\\yandexdriver.exe");
-        //     driver = new ChromeDriver();
-        //     setWebDriver(driver);
+        System.setProperty("webdriver.chrome.driver", "C:\\WebDriver\\bin\\yandexdriver.exe");
+        driver = new ChromeDriver();
+        setWebDriver(driver);
 
         user = User.getRandom();
         stellarBurgersClient = new StellarBurgersClient();
